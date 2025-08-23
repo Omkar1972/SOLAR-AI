@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar AI - Weather-Based Power Generation Predictor</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-solar-panel"></i>
+                    <h1>Maharashtra Solar AI</h1>
+                </div>
+                <p class="subtitle">AI-Powered Solar Power Generation Forecasting for Maharashtra</p>
+                <div class="header-buttons">
+                    <button id="backToMainBtn" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to Main
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Location Input Section -->
+            <section class="location-section">
+                <div class="card">
+                    <h2><i class="fas fa-map-marker-alt"></i> Location Setup</h2>
+                    <div class="location-input">
+                        <input type="text" id="locationInput" placeholder="Enter city name or coordinates" value="Mumbai, Maharashtra">
+                        <button id="getWeatherBtn" class="btn btn-primary">
+                            <i class="fas fa-search"></i> Get Weather Data
+                        </button>
+                    </div>
+                    <div class="maharashtra-cities">
+                        <h3>Popular Cities in Maharashtra:</h3>
+                        <div class="city-buttons">
+                            <button class="city-btn" data-city="Mumbai">Mumbai</button>
+                            <button class="city-btn" data-city="Pune">Pune</button>
+                            <button class="city-btn" data-city="Nagpur">Nagpur</button>
+                            <button class="city-btn" data-city="Nashik">Nashik</button>
+                            <button class="city-btn" data-city="Aurangabad">Aurangabad</button>
+                            <button class="city-btn" data-city="Solapur">Solapur</button>
+                            <button class="city-btn" data-city="Kolhapur">Kolhapur</button>
+                            <button class="city-btn" data-city="Amravati">Amravati</button>
+                        </div>
+                    </div>
+                    <div class="current-location">
+                        <button id="useCurrentLocation" class="btn btn-secondary">
+                            <i class="fas fa-crosshairs"></i> Use Current Location
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Weather Data Section -->
+            <section class="weather-section">
+                <div class="card">
+                    <h2><i class="fas fa-cloud-sun"></i> Current Weather</h2>
+                    <div id="weatherData" class="weather-data">
+                        <div class="weather-placeholder">
+                            <i class="fas fa-cloud"></i>
+                            <p>Enter location to get weather data</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Appliance Selection Section -->
+            <section class="appliance-section">
+                <div class="card">
+                    <h2><i class="fas fa-plug"></i> Appliance Selection</h2>
+                    <div class="appliance-grid">
+                        <div class="appliance-item">
+                            <input type="checkbox" id="fan" data-wattage="75" data-hours="8">
+                            <label for="fan">Ceiling Fan</label>
+                            <input type="number" class="quantity" value="2" min="0" max="10">
+                            <input type="number" class="custom-watt" placeholder="75W" min="1" max="1000">
+                        </div>
+                        <div class="appliance-item">
+                            <input type="checkbox" id="light" data-wattage="15" data-hours="6">
+                            <label for="light">LED Light</label>
+                            <input type="number" class="quantity" value="5" min="0" max="20">
+                            <input type="number" class="custom-watt" placeholder="15W" min="1" max="1000">
+                        </div>
+                        <div class="appliance-item">
+                            <input type="checkbox" id="tv" data-wattage="100" data-hours="4">
+                            <label for="tv">TV</label>
+                            <input type="number" class="quantity" value="1" min="0" max="5">
+                            <input type="number" class="custom-watt" placeholder="100W" min="1" max="1000">
+                        </div>
+                        <div class="appliance-item">
+                            <input type="checkbox" id="fridge" data-wattage="200" data-hours="24">
+                            <label for="fridge">Refrigerator</label>
+                            <input type="number" class="quantity" value="1" min="0" max="3">
+                            <input type="number" class="custom-watt" placeholder="200W" min="1" max="1000">
+                        </div>
+                        <div class="appliance-item">
+                            <input type="checkbox" id="ac" data-wattage="1500" data-hours="6">
+                            <label for="ac">Air Conditioner</label>
+                            <input type="number" class="quantity" value="1" min="0" max="3">
+                            <input type="number" class="custom-watt" placeholder="1500W" min="1" max="1000">
+                        </div>
+                        <div class="appliance-item">
+                            <input type="checkbox" id="washing" data-wattage="500" data-hours="2">
+                            <label for="washing">Washing Machine</label>
+                            <input type="number" class="quantity" value="1" min="0" max="2">
+                            <input type="number" class="custom-watt" placeholder="500W" min="1" max="1000">
+                        </div>
+                    </div>
+                    
+                    <!-- Custom Appliance Form -->
+                    <div class="custom-appliance-form">
+                        <h3>Add Custom Appliance</h3>
+                        <div class="form-row">
+                            <input type="text" id="customApplianceName" placeholder="Appliance Name">
+                            <input type="number" id="customApplianceWattage" placeholder="Wattage" min="1" max="10000">
+                            <input type="number" id="customApplianceHours" placeholder="Hours per day" min="0.1" max="24" step="0.1">
+                            <input type="number" id="customApplianceQuantity" placeholder="Quantity" min="1" max="10" value="1">
+                            <button id="addCustomAppliance" class="btn btn-primary">Add</button>
+                        </div>
+                    </div>
+                    
+                    <div class="calculator-controls">
+                        <select id="calculatorLocation">
+                            <option value="Mumbai">Mumbai</option>
+                            <option value="Pune">Pune</option>
+                            <option value="Nagpur">Nagpur</option>
+                            <option value="Nashik">Nashik</option>
+                            <option value="Aurangabad">Aurangabad</option>
+                            <option value="Solapur">Solapur</option>
+                            <option value="Kolhapur">Kolhapur</option>
+                            <option value="Amravati">Amravati</option>
+                        </select>
+                        <button id="calculateLoadBtn" class="btn btn-primary">
+                            <i class="fas fa-calculator"></i> Calculate Load & Solar Requirements
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Load Summary Section -->
+            <section class="load-summary-section" style="display: none;">
+                <div class="card">
+                    <h2><i class="fas fa-chart-pie"></i> Load Summary</h2>
+                    <div id="loadSummary"></div>
+                </div>
+            </section>
+
+            <!-- Solar Requirements Section -->
+            <section class="solar-requirements-section" style="display: none;">
+                <div class="card">
+                    <h2><i class="fas fa-solar-panel"></i> Solar System Requirements</h2>
+                    <div id="solarRequirements"></div>
+                </div>
+            </section>
+
+            <!-- Prediction Results -->
+            <section class="prediction-section">
+                <div class="card">
+                    <h2><i class="fas fa-chart-line"></i> Power Generation Prediction</h2>
+                    <div class="prediction-controls">
+                        <button id="predictBtn" class="btn btn-primary">
+                            <i class="fas fa-magic"></i> Generate Prediction
+                        </button>
+                        <button id="clearBtn" class="btn btn-secondary">
+                            <i class="fas fa-trash"></i> Clear Results
+                        </button>
+                    </div>
+                    <div id="predictionResults" class="prediction-results">
+                        <div class="prediction-placeholder">
+                            <i class="fas fa-chart-bar"></i>
+                            <p>Click "Generate Prediction" to see results</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Maharashtra Solar Potential -->
+            <section class="maharashtra-potential-section">
+                <div class="card">
+                    <h2><i class="fas fa-map-marked-alt"></i> Maharashtra Solar Potential</h2>
+                    <div class="potential-grid">
+                        <div class="potential-item">
+                            <h3>Annual Solar Irradiance</h3>
+                            <div class="value">5.5-6.5</div>
+                            <div class="unit">kWh/m²/day</div>
+                        </div>
+                        <div class="potential-item">
+                            <h3>Peak Sun Hours</h3>
+                            <div class="value">4.5-6.0</div>
+                            <div class="unit">hours/day</div>
+                        </div>
+                        <div class="potential-item">
+                            <h3>Monsoon Impact</h3>
+                            <div class="value">30-40%</div>
+                            <div class="unit">reduction</div>
+                        </div>
+                        <div class="potential-item">
+                            <h3>Best Season</h3>
+                            <div class="value">Oct-May</div>
+                            <div class="unit">peak generation</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Historical Data -->
+            <section class="historical-section">
+                <div class="card">
+                    <h2><i class="fas fa-history"></i> Historical Analysis</h2>
+                    <div class="historical-controls">
+                        <select id="timeRange">
+                            <option value="7">Last 7 days</option>
+                            <option value="30">Last 30 days</option>
+                            <option value="90">Last 90 days</option>
+                        </select>
+                        <button id="loadHistoricalBtn" class="btn btn-primary">
+                            <i class="fas fa-download"></i> Load Historical Data
+                        </button>
+                    </div>
+                    <div id="historicalChart" class="historical-chart">
+                        <canvas id="chartCanvas"></canvas>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025 Solar AI Predictor. Powered by AI and Weather Data.</p>
+        </footer>
+    </div>
+
+    <!-- Loading Modal -->
+    <div id="loadingModal" class="modal">
+        <div class="modal-content">
+            <div class="spinner"></div>
+            <p>Processing weather data and generating predictions...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar Calculator - Maharashtra Solar AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-calculator"></i>
+                    <h1>Solar Calculator</h1>
+                </div>
+                <p class="subtitle">Calculate Solar Panel Requirements for Your Home/Office</p>
+                <div class="header-buttons">
+                    <button id="backToMainBtn" class="btn btn-primary">
+                        <i class="fas fa-arrow-left"></i> Back to Main
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Appliance Selection Section -->
+            <section class="appliance-section">
+                <div class="card">
+                    <h2><i class="fas fa-plug"></i> Select Your Appliances</h2>
+                    <p class="section-description">Add the appliances you use in your home or office to calculate your total power consumption.</p>
+                    
+                    <div class="appliance-categories">
+                        <!-- Lighting -->
+                        <div class="category-group">
+                            <h3><i class="fas fa-lightbulb"></i> Lighting</h3>
+                            <div class="appliance-grid">
+                               <div class="appliance-item">
+       <label>
+        <input type="checkbox" data-appliance="LED Bulb" data-wattage="10" data-hours="8">
+        LED Bulb
+    </label>
+    <input type="number" class="quantity" placeholder="Qty" min="0" value="0">
+    <input type="number" class="custom-watt" placeholder="Custom Watt" min="1">
+</div>
+
+                                <div class="appliance-item">
+                                    <label>
+                                        <input type="checkbox" data-appliance="CFL Bulb" data-wattage="15" data-hours="8">
+                                        CFL Bulb 
+                                    </label>
+                                    <input type="number" class="quantity" placeholder="Qty" min="0" value="0">
+                                    <input type="number" class="custom-watt" placeholder="Custom Watt" min="1">
+                                </div>
+                                <div class="appliance-item">
+                                    <label>
+                                        <input type="checkbox" data-appliance="Tube Light" data-wattage="40" data-hours="8">
+                                        Tube Light
+                                    </label>
+                                    <input type="number" class="quantity" placeholder="Qty" min="0" value="0">
+                                    <input type="number" class="custom-watt" placeholder="Custom Watt" min="1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cooling -->
+                        <div class="category-group">
+                            <h3><i class="fas fa-snowflake"></i> Cooling</h3>
+                            <div class="appliance-grid">
+                                <div class="appliance-item">
+                                    <label>
+                                        <input type="checkbox" data-appliance="Ceiling Fan" data-wattage="75" data-hours="12">
+                                        Ceiling Fan 
+                                    </label>
+                                    <input type="number" class="quantity" placeholder="Qty" min="0" value="0">
+                                    <input type="number" class="custom-watt" placeholder="Custom Watt" min="1">
+                                </div>
+                                <div class="appliance-item">
+                                    <label>
+                                        <input type="checkbox" data-appliance="AC 1.5 Ton" data-wattage="1800" data-hours="8">
+                                        AC 1.5 Ton 
+                                    </label>
+                                    <input type="number" class="quantity" placeholder="Qty" min="0" value="0">
+                                    <input type="number" class="custom-watt" placeholder="Custom Watt" min="1">
+                                </div>
+                                <div class="appliance-item">
+                                    <label>
+                                        <input type="checkbox" data-appliance="AC 2 Ton" data-wattage="2400" data-hours="8">
+                                        AC 2 Ton 
+                                    </label>
+                                    <input type="number" class="quantity" placeholder="Qty" min="0" value="0">
+                                    <input type="number" class="custom-watt" placeholder="Custom Watt" min="1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Kitchen -->
+                        <div class="category-group">
+                            <h3><i class="fas fa-utensils"></i> Kitchen</h3>
+                            <div class="appliance-grid">
+                                <div class="appliance-item">
+                                    <label>
+                                        <input type="checkbox" data-appliance="Refrigerator" data-wattage="150" data-hours="24">
+                                        Refrigerator 
+                                    </label>
+                                    <input type="number" class="quantity" placeholder="Qty" min="0" value="0">
+                                    <input type="number" class="custom-watt" placeholder="Custom Watt" min="1">
+                                </div>
+                                <div class="appliance-item">
+                                    <label>
+                                        <input type="checkbox" data-appliance="Microwave" data-wattage="1200" data-hours="1">
+                                        Microwave 
+                                    </label>
+                                    <input type="number" class="quantity" placeholder="Qty" min="0" value="0">
+                                    <input type="number" class="custom-watt" placeholder="Custom Watt" min="1">
+                                </div>
+                                <div class="appliance-item">
+                                    <label>
+                                        <input type="checkbox" data-appliance="Electric Kettle" data-wattage="2000" data-hours="0.5">
+                                        Electric Kettle 
+                                    </label>
+                                    <input type="number" class="quantity" placeholder="Qty" min="0" value="0">
+                                    <input type="number" class="custom-watt" placeholder="Custom Watt" min="1">
+                                </div>
+                                <div class="appliance-item">
+                                    <label>
+                                        <input type="checkbox" data-appliance="Mixer Grinder" data-wattage="500" data-hours="0.5">
+                                        Mixer Grinder 
+                                    </label>
+                                    <input type="number" class="quantity" placeholder="Qty" min="0" value="0">
+                                    <input type="number" class="custom-watt" placeholder="Custom Watt" min="1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Entertainment -->
+                        <div class="category-group">
+                            <h3><i class="fas fa-tv"></i> Entertainment</h3>
+                            <div class="appliance-grid">
+                                <div class="appliance-item">
+                                    <label>
+                                        <input type="checkbox" data-appliance="TV LED" data-wattage="100" data-hours="4">
+                                        TV LED 
+                                    </label>
+                                    <input type="number" class="quantity" placeholder="Qty" min="0" value="0">
+                                    <input type="number" class="custom-watt" placeholder="Custom Watt" min="1">
+                                </div>
+                                <div class="appliance-item">
+                                    <label>
+                                        <input type="checkbox" data-appliance="Computer" data-wattage="300" data-hours="8">
+                                        Computer 
+                                    </label>
+                                    <input type="number" class="quantity" placeholder="Qty" min="0" value="0">
+                                    <input type="number" class="custom-watt" placeholder="Custom Watt" min="1">
+                                </div>
+                                <div class="appliance-item">
+                                    <label>
+                                        <input type="checkbox" data-appliance="Laptop" data-wattage="65" data-hours="8">
+                                        Laptop 
+                                    </label>
+                                    <input type="number" class="quantity" placeholder="Qty" min="0" value="0">
+                                    <input type="number" class="custom-watt" placeholder="Custom Watt" min="1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Laundry -->
+                        <div class="category-group">
+                            <h3><i class="fas fa-tshirt"></i> Laundry</h3>
+                            <div class="appliance-grid">
+                                <div class="appliance-item">
+                                    <label>
+                                        <input type="checkbox" data-appliance="Washing Machine" data-wattage="500" data-hours="2">
+                                        Washing Machine 
+                                    </label>
+                                    <input type="number" class="quantity" placeholder="Qty" min="0" value="0">
+                                    <input type="number" class="custom-watt" placeholder="Custom Watt" min="1">
+                                </div>
+                                <div class="appliance-item">
+                                    <label>
+                                        <input type="checkbox" data-appliance="Iron" data-wattage="1000" data-hours="1">
+                                        Iron 
+                                    </label>
+                                    <input type="number" class="quantity" placeholder="Qty" min="0" value="0">
+                                    <input type="number" class="custom-watt" placeholder="Custom Watt" min="1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Custom Appliance -->
+                        <div class="category-group">
+                            <h3><i class="fas fa-plus"></i> Custom Appliance</h3>
+                            <div class="custom-appliance">
+                                <input type="text" id="customApplianceName" placeholder="Appliance Name">
+                                <input type="number" id="customApplianceWattage" placeholder="Wattage" min="1">
+                                <input type="number" id="customApplianceHours" placeholder="Hours per day" min="0" step="0.5">
+                                <input type="number" id="customApplianceQuantity" placeholder="Quantity" min="1" value="1">
+                                <button id="addCustomAppliance" class="btn btn-primary">Add</button>
+                            </div>
+                            <!-- Custom Appliances List -->
+                            <div id="customAppliancesList" class="custom-appliances-list" style="display: none;">
+                                <div class="custom-appliances-header">
+                                    <h4><i class="fas fa-list"></i> Added Custom Appliances <span id="customAppliancesCount" class="count-badge">0</span></h4>
+                                    <button id="removeAllCustomAppliances" class="btn btn-secondary remove-all-btn">
+                                        <i class="fas fa-trash-alt"></i> Remove All
+                                    </button>
+                                </div>
+                                <div id="customAppliancesItems"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="calculate-section">
+                        <button id="calculateLoadBtn" class="btn btn-primary">
+                            <i class="fas fa-calculator"></i> Calculate Total Load
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Load Summary Section -->
+            <section class="load-summary-section" style="display: none;">
+                <div class="card">
+                    <h2><i class="fas fa-chart-pie"></i> Load Summary</h2>
+                    <div id="loadSummary" class="load-summary">
+                        <!-- Load summary will be populated here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Solar Requirements Section -->
+            <section class="solar-requirements-section" style="display: none;">
+                <div class="card">
+                    <h2><i class="fas fa-solar-panel"></i> Solar Panel Requirements</h2>
+                    <div class="location-selector">
+                        <label for="calculatorLocation">Select Your Location:</label>
+                        <select id="calculatorLocation">
+                            <option value="Mumbai">Mumbai</option>
+                            <option value="Pune">Pune</option>
+                            <option value="Nagpur">Nagpur</option>
+                            <option value="Nashik">Nashik</option>
+                            <option value="Aurangabad">Aurangabad</option>
+                            <option value="Solapur">Solapur</option>
+                            <option value="Kolhapur">Kolhapur</option>
+                            <option value="Amravati">Amravati</option>
+                        </select>
+                    </div>
+                    <div id="solarRequirements" class="solar-requirements">
+                        <!-- Solar requirements will be populated here -->
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025 Solar AI Predictor. Powered by AI and Weather Data.</p>
+        </footer>
+    </div>
+
+    <!-- Loading Modal -->
+    <div id="loadingModal" class="modal">
+        <div class="modal-content">
+            <div class="spinner"></div>
+            <p>Calculating solar requirements...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="config.js"></script>
+    <script src="solar-calculator.js"></script>
+</body>
+</html> 
