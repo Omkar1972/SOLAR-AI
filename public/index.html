@@ -119,6 +119,13 @@
                             <input type="number" id="panelAzimuth" value="180" min="0" max="360" step="1">
                         </div>
                     </div>
+                    <div class="performance-toggle">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="fastModeToggle">
+                            <span class="slider"></span>
+                        </label>
+                        <span class="toggle-label">🚀 Fast Mode (Prioritize Speed over Accuracy)</span>
+                    </div>
                 </div>
             </section>
 
@@ -172,7 +179,7 @@
                 </div>
             </section>
 
-            <!-- Historical Data -->
+            <!-- Historical Data
             <section class="historical-section">
                 <div class="card">
                     <h2><i class="fas fa-history"></i> Historical Analysis</h2>
@@ -190,7 +197,9 @@
                         <canvas id="chartCanvas"></canvas>
                     </div>
                 </div>
-            </section>
+            </section> -->
+
+
         </main>
 
         <!-- Footer -->
@@ -211,5 +220,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="config.js"></script>
     <script src="script.js"></script>
+    <script src="../test-location-functionality.js"></script>
 </body>
 </html> 

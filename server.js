@@ -80,6 +80,11 @@ app.get('/test-location', (req, res) => {
     res.sendFile(__dirname + '/public/test-location.html');
 });
 
+// Serve all districts weather page
+app.get('/all-districts-weather', (req, res) => {
+    res.sendFile(__dirname + '/public/all-districts-weather.html');
+});
+
 // 404 handler
 app.use('*', (req, res) => {
     res.status(404).json({

@@ -28,6 +28,30 @@
 
         <!-- Main Content -->
         <main class="main-content">
+            <!-- Instructions Section -->
+            <section class="instructions-section">
+                <div class="card">
+                    <h2><i class="fas fa-info-circle"></i> How to Use Solar Calculator</h2>
+                    <div class="instructions-grid">
+                        <div class="instruction-step">
+                            <div class="step-number">1</div>
+                            <h3>Select Appliances</h3>
+                            <p>Choose the appliances you use in your home/office and set their quantities and usage hours.</p>
+                        </div>
+                        <div class="instruction-step">
+                            <div class="step-number">2</div>
+                            <h3>Choose Location</h3>
+                            <p>Select your city from the list, click on city buttons, or type a custom city name.</p>
+                        </div>
+                        <div class="instruction-step">
+                            <div class="step-number">3</div>
+                            <h3>Calculate Requirements</h3>
+                            <p>Click "Calculate Total Load" to see your solar panel requirements and cost estimates.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- Appliance Selection Section -->
             <section class="appliance-section">
                 <div class="card">
@@ -237,7 +261,23 @@
                 <div class="card">
                     <h2><i class="fas fa-solar-panel"></i> Solar Panel Requirements</h2>
                     <div class="location-selector">
-                        <label for="calculatorLocation">Select Your Location:</label>
+                        <div class="current-city-display" id="currentCityDisplay">
+                            <h3><i class="fas fa-map-marker-alt"></i> Current Location</h3>
+                            <div class="selected-city">
+                                <span id="displayCityName">Mumbai</span>
+                                <span class="city-label">Maharashtra, India</span>
+                            </div>
+                        </div>
+                        
+                        <label for="manualCityInput">Enter City Name (Optional):</label>
+                        <div class="city-input-group">
+                            <input type="text" id="manualCityInput" placeholder="Type any city name..." class="city-input">
+                            <button id="setCustomCityBtn" class="btn btn-secondary">
+                                <i class="fas fa-check"></i> Set City
+                            </button>
+                        </div>
+                        
+                        <label for="calculatorLocation">Or Select from List:</label>
                         <select id="calculatorLocation">
                             <option value="Mumbai">Mumbai</option>
                             <option value="Pune">Pune</option>
@@ -247,7 +287,51 @@
                             <option value="Solapur">Solapur</option>
                             <option value="Kolhapur">Kolhapur</option>
                             <option value="Amravati">Amravati</option>
+                            <option value="Ahmednagar">Ahmednagar</option>
+                            <option value="Akola">Akola</option>
+                            <option value="Bhandara">Bhandara</option>
+                            <option value="Beed">Beed</option>
+                            <option value="Buldhana">Buldhana</option>
+                            <option value="Chandrapur">Chandrapur</option>
+                            <option value="Dhule">Dhule</option>
+                            <option value="Gadchiroli">Gadchiroli</option>
+                            <option value="Gondia">Gondia</option>
+                            <option value="Hingoli">Hingoli</option>
+                            <option value="Jalgaon">Jalgaon</option>
+                            <option value="Jalna">Jalna</option>
+                            <option value="Latur">Latur</option>
+                            <option value="Mumbai Suburban">Mumbai Suburban</option>
+                            <option value="Nanded">Nanded</option>
+                            <option value="Nashik Rural">Nashik Rural</option>
+                            <option value="Osmanabad">Osmanabad</option>
+                            <option value="Palghar">Palghar</option>
+                            <option value="Parbhani">Parbhani</option>
+                            <option value="Raigad">Raigad</option>
+                            <option value="Ratnagiri">Ratnagiri</option>
+                            <option value="Sangli">Sangli</option>
+                            <option value="Satara">Satara</option>
+                            <option value="Sindhudurg">Sindhudurg</option>
+                            <option value="Thane">Thane</option>
+                            <option value="Wardha">Wardha</option>
+                            <option value="Washim">Washim</option>
+                            <option value="Yavatmal">Yavatmal</option>
+                            <option value="Nandurbar">Nandurbar</option>
                         </select>
+                        
+                        <!-- Add clickable city buttons for better UX -->
+                        <div class="maharashtra-cities">
+                            <h3>Popular Cities in Maharashtra:</h3>
+                            <div class="city-buttons">
+                                <button class="city-btn" data-city="Mumbai">Mumbai</button>
+                                <button class="city-btn" data-city="Pune">Pune</button>
+                                <button class="city-btn" data-city="Nagpur">Nagpur</button>
+                                <button class="city-btn" data-city="Nashik">Nashik</button>
+                                <button class="city-btn" data-city="Aurangabad">Aurangabad</button>
+                                <button class="city-btn" data-city="Solapur">Solapur</button>
+                                <button class="city-btn" data-city="Kolhapur">Kolhapur</button>
+                                <button class="city-btn" data-city="Amravati">Amravati</button>
+                            </div>
+                        </div>
                     </div>
                     <div id="solarRequirements" class="solar-requirements">
                         <!-- Solar requirements will be populated here -->

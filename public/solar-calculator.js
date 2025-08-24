@@ -26,8 +26,76 @@ class SolarCalculator {
 
         // Location change
         document.getElementById('calculatorLocation').addEventListener('change', () => {
+            const selectedCity = document.getElementById('calculatorLocation').value;
+            
+            // Update current city display
+            this.updateCurrentCityDisplay(selectedCity);
+            
+            // Update manual input
+            document.getElementById('manualCityInput').value = selectedCity;
+            
+            // Clear active city button
+            document.querySelectorAll('.city-btn').forEach(b => b.classList.remove('active'));
+            
+            // If we have appliances selected, recalculate solar requirements
             if (this.selectedAppliances.length > 0) {
                 this.calculateSolarRequirements();
+            }
+        });
+
+        // City button clicks - Add this new functionality
+        document.querySelectorAll('.city-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const city = btn.getAttribute('data-city');
+                document.getElementById('calculatorLocation').value = city;
+                document.getElementById('manualCityInput').value = city;
+                
+                // Update current city display
+                this.updateCurrentCityDisplay(city);
+                
+                // Update active button state
+                document.querySelectorAll('.city-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // If we have appliances selected, recalculate solar requirements
+                if (this.selectedAppliances.length > 0) {
+                    this.calculateSolarRequirements();
+                }
+                
+                // Show success message
+                this.showMessage(`Location changed to ${city}!`, 'success');
+            });
+        });
+
+        // Manual city input and set button
+        document.getElementById('setCustomCityBtn').addEventListener('click', () => {
+            const customCity = document.getElementById('manualCityInput').value.trim();
+            if (customCity) {
+                if (customCity.length < 2) {
+                    this.showMessage('City name must be at least 2 characters long.', 'error');
+                    return;
+                }
+                
+                if (customCity.length > 50) {
+                    this.showMessage('City name is too long. Please use a shorter name.', 'error');
+                    return;
+                }
+                
+                // Clear active city button
+                document.querySelectorAll('.city-btn').forEach(b => b.classList.remove('active'));
+                
+                // Set the custom city
+                this.setCustomCity(customCity);
+                this.showMessage(`Custom city set to ${customCity}!`, 'success');
+            } else {
+                this.showMessage('Please enter a city name.', 'error');
+            }
+        });
+
+        // Enter key support for manual city input
+        document.getElementById('manualCityInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                document.getElementById('setCustomCityBtn').click();
             }
         });
 
@@ -67,6 +135,43 @@ class SolarCalculator {
                 this.removeAllCustomAppliances();
             }
         });
+    }
+
+    // Update current city display
+    updateCurrentCityDisplay(cityName) {
+        const displayCityName = document.getElementById('displayCityName');
+        if (displayCityName) {
+            displayCityName.textContent = cityName;
+        }
+    }
+
+    // Set custom city
+    setCustomCity(cityName) {
+        // Update the manual input
+        document.getElementById('manualCityInput').value = cityName;
+        
+        // Update the current city display
+        this.updateCurrentCityDisplay(cityName);
+        
+        // Try to find a matching city in the dropdown
+        const dropdown = document.getElementById('calculatorLocation');
+        const matchingOption = Array.from(dropdown.options).find(option => 
+            option.value.toLowerCase() === cityName.toLowerCase()
+        );
+        
+        if (matchingOption) {
+            dropdown.value = matchingOption.value;
+        } else {
+            // If no exact match, add it as a custom option
+            const customOption = new Option(cityName, cityName);
+            dropdown.add(customOption);
+            dropdown.value = cityName;
+        }
+        
+        // If we have appliances selected, recalculate solar requirements
+        if (this.selectedAppliances.length > 0) {
+            this.calculateSolarRequirements();
+        }
     }
 
     // Update appliance selection
@@ -343,6 +448,10 @@ class SolarCalculator {
 
             const result = await response.json();
             this.displaySolarRequirements(result.data);
+            
+            // Also fetch and display city-specific solar potential
+            this.fetchCitySolarPotential(location);
+            
             this.hideLoading();
 
         } catch (error) {
@@ -356,6 +465,62 @@ class SolarCalculator {
         }
     }
 
+    // Fetch city-specific solar potential
+    async fetchCitySolarPotential(location) {
+        try {
+            const response = await fetch(`http://localhost:5000/api/solar/maharashtra-potential`);
+            if (response.ok) {
+                const result = await response.json();
+                const cityData = result.data[location];
+                if (cityData) {
+                    this.displayCitySolarPotential(location, cityData);
+                }
+            }
+        } catch (error) {
+            console.log('Could not fetch city solar potential');
+        }
+    }
+
+    // Display city-specific solar potential
+    displayCitySolarPotential(location, cityData) {
+        const solarRequirementsSection = document.querySelector('.solar-requirements-section');
+        if (solarRequirementsSection) {
+            const cityPotentialDiv = document.createElement('div');
+            cityPotentialDiv.className = 'city-solar-potential';
+            cityPotentialDiv.innerHTML = `
+                <div class="potential-header">
+                    <h3><i class="fas fa-sun"></i> Solar Potential for ${location}</h3>
+                </div>
+                <div class="potential-grid">
+                    <div class="potential-item">
+                        <h4>Annual Irradiance</h4>
+                        <div class="value">${cityData.annualIrradiance}</div>
+                    </div>
+                    <div class="potential-item">
+                        <h4>Peak Sun Hours</h4>
+                        <div class="value">${cityData.peakSunHours}</div>
+                    </div>
+                    <div class="potential-item">
+                        <h4>Monsoon Impact</h4>
+                        <div class="value">${cityData.monsoonImpact}</div>
+                    </div>
+                    <div class="potential-item">
+                        <h4>Best Season</h4>
+                        <div class="value">${cityData.bestSeason}</div>
+                    </div>
+                    <div class="potential-item">
+                        <h4>Solar Class</h4>
+                        <div class="value">${cityData.solarClass}</div>
+                    </div>
+                </div>
+            `;
+            
+            // Insert after the solar requirements
+            const solarRequirementsDiv = document.getElementById('solarRequirements');
+            solarRequirementsDiv.appendChild(cityPotentialDiv);
+        }
+    }
+
     // Calculate fallback requirements
     calculateFallbackRequirements() {
         const location = document.getElementById('calculatorLocation').value;
@@ -363,7 +528,7 @@ class SolarCalculator {
             return sum + appliance.dailyConsumption;
         }, 0);
 
-        // Maharashtra solar potential data
+        // Maharashtra solar potential data - All 36 Districts
         const locationData = {
             'Mumbai': { peakSunHours: 5.2, efficiency: 0.75 },
             'Pune': { peakSunHours: 5.5, efficiency: 0.78 },
@@ -372,7 +537,36 @@ class SolarCalculator {
             'Aurangabad': { peakSunHours: 5.4, efficiency: 0.79 },
             'Solapur': { peakSunHours: 5.9, efficiency: 0.84 },
             'Kolhapur': { peakSunHours: 5.1, efficiency: 0.73 },
-            'Amravati': { peakSunHours: 5.6, efficiency: 0.80 }
+            'Amravati': { peakSunHours: 5.6, efficiency: 0.80 },
+            'Ahmednagar': { peakSunHours: 5.4, efficiency: 0.77 },
+            'Akola': { peakSunHours: 5.7, efficiency: 0.81 },
+            'Bhandara': { peakSunHours: 5.6, efficiency: 0.80 },
+            'Beed': { peakSunHours: 5.5, efficiency: 0.78 },
+            'Buldhana': { peakSunHours: 5.6, efficiency: 0.79 },
+            'Chandrapur': { peakSunHours: 5.7, efficiency: 0.81 },
+            'Dhule': { peakSunHours: 5.4, efficiency: 0.77 },
+            'Gadchiroli': { peakSunHours: 5.5, efficiency: 0.78 },
+            'Gondia': { peakSunHours: 5.6, efficiency: 0.80 },
+            'Hingoli': { peakSunHours: 5.5, efficiency: 0.78 },
+            'Jalgaon': { peakSunHours: 5.5, efficiency: 0.78 },
+            'Jalna': { peakSunHours: 5.4, efficiency: 0.77 },
+            'Latur': { peakSunHours: 5.6, efficiency: 0.79 },
+            'Mumbai Suburban': { peakSunHours: 5.2, efficiency: 0.75 },
+            'Nanded': { peakSunHours: 5.5, efficiency: 0.78 },
+            'Nashik Rural': { peakSunHours: 5.3, efficiency: 0.76 },
+            'Osmanabad': { peakSunHours: 5.5, efficiency: 0.78 },
+            'Palghar': { peakSunHours: 5.3, efficiency: 0.76 },
+            'Parbhani': { peakSunHours: 5.4, efficiency: 0.77 },
+            'Raigad': { peakSunHours: 5.3, efficiency: 0.76 },
+            'Ratnagiri': { peakSunHours: 5.1, efficiency: 0.74 },
+            'Sangli': { peakSunHours: 5.2, efficiency: 0.75 },
+            'Satara': { peakSunHours: 5.3, efficiency: 0.76 },
+            'Sindhudurg': { peakSunHours: 5.0, efficiency: 0.73 },
+            'Thane': { peakSunHours: 5.2, efficiency: 0.75 },
+            'Wardha': { peakSunHours: 5.6, efficiency: 0.80 },
+            'Washim': { peakSunHours: 5.5, efficiency: 0.78 },
+            'Yavatmal': { peakSunHours: 5.6, efficiency: 0.80 },
+            'Nandurbar': { peakSunHours: 5.4, efficiency: 0.77 }
         };
 
         const data = locationData[location] || locationData['Mumbai'];
@@ -496,4 +690,15 @@ class SolarCalculator {
 // Initialize the calculator when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     window.solarCalculator = new SolarCalculator();
+    
+    // Initialize default city display
+    const defaultCity = document.getElementById('calculatorLocation').value;
+    if (defaultCity) {
+        window.solarCalculator.updateCurrentCityDisplay(defaultCity);
+    }
+    
+    // Show welcome message
+    setTimeout(() => {
+        window.solarCalculator.showMessage('Welcome to Solar Calculator! Select your appliances and location to get started.', 'info');
+    }, 1000);
 }); 
